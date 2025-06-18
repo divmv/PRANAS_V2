@@ -1,2 +1,1 @@
-# PRANAS
 User Interface for PRANAS at the DICE Lab, College of Engineering, UGA

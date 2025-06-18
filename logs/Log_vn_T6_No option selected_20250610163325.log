@@ -1,0 +1,19 @@
+Log started on 6/10/2025
+Initialized local system at 16:33:25
+UID: vn
+Mode: No option selected
+Trial: 6
+Duration: 56 seconds
+Sampling Rate: 56
+Buffer Size: 657
+User: vbn
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 56 
+Actual Scan Rate: 56.000056000056 
+16:33:26:Recording Started
+16:33:26:Recording Ended 
+Data Recording Complete for a Duration of 0s
+Final Data Frame Size:(0, 0)

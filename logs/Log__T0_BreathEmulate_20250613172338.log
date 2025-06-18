@@ -1,0 +1,34 @@
+Log started on 6/13/2025
+Initialized local system at 17:23:38
+UID: 
+Mode: BreathEmulate
+Trial: 0
+Duration: 160 seconds
+Sampling Rate: 0
+Buffer Size: 0
+User: 
+-----------------------------------
+Step Durations: 20,30,20,30,20,20,20
+Nebulizer States: 0, 1, 0, 1, 0, 1, 0
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 0 
+Actual Scan Rate: inf 
+Log started on 6/13/2025
+Initialized local system at 17:23:38
+UID: 
+Mode: BreathEmulate
+Trial: 0
+Duration: 160 seconds
+Sampling Rate: 0
+Buffer Size: 0
+User: 
+-----------------------------------
+Step Durations: 20,30,20,30,20,20,20
+Nebulizer States: 0, 1, 0, 1, 0, 1, 0
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 0 
+Actual Scan Rate: inf 

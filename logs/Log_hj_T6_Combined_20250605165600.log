@@ -1,0 +1,11 @@
+Log started on 6/5/2025
+Initialized local system at 16:56:0
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+16:56:0:Recording Started
+16:56:0:Recording Ended 
+Data Recording Complete for a Duration of 0s
+Final Data Frame Size:(0, 0)
