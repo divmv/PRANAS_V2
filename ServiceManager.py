@@ -18,6 +18,7 @@ class ServiceManager:
                 self.connection_Check=False
                 self.trialParameters=TrialParameters()
                 self.deviceFlags=DeviceFlags()
+                self.logFileManage = LogFileManage(self)
                 print("contacted Service Manager")
                 Clock.schedule_interval(self.process_flags, 0.5)
 
@@ -42,8 +43,8 @@ class ServiceManager:
                 self.logFileManage.WriteLog(f'Mode: {self.trialParameters.MODE}', 0)
                 self.logFileManage.WriteLog(f'Trial: {self.trialParameters.TRIAL}', 0)
                 self.logFileManage.WriteLog(f'Duration: {self.trialParameters.RECORD_DURATION} seconds', 0)
-                self.logFileManage.WriteLog(f'Sampling Rate: {self.trialParameters.SAMPLING_RATE}', 0)
-                self.logFileManage.WriteLog(f'Buffer Size: {self.trialParameters.BUFFER_SIZE}', 0)
+                # self.logFileManage.WriteLog(f'Sampling Rate: {self.trialParameters.SAMPLING_RATE}', 0)
+                # self.logFileManage.WriteLog(f'Buffer Size: {self.trialParameters.BUFFER_SIZE}', 0)
                 self.logFileManage.WriteLog(f'User: {self.trialParameters.USER}', 0)
                 self.logFileManage.WriteLog('-----------------------------------', 0)
 
