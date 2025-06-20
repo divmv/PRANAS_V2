@@ -19,12 +19,69 @@ class Tab1Content(BoxLayout):
         sm = ScreenManager()
         sm.add_widget(UserInfoScreen(service_manager=service_manager, name='user'))
         sm.add_widget(AnalysisInfoScreen(service_manager=service_manager, name='analysis'))
+        sm.add_widget(OldAnalysisInfoScreen(service_manager=service_manager, name='old_analysis'))
+        
 
         self.add_widget(sm)
 
 
 
 # Screen 1: User Info
+class UserInfoScreen(Screen):
+    def __init__(self, service_manager=None, **kwargs):
+        super().__init__(**kwargs)
+        self.service_manager = service_manager
+
+        self.current_input = None
+
+        layout = BoxLayout(orientation='vertical', spacing=5, padding=5)
+        
+        welcome_label = Label(
+            text="Welcome! Choose an option:",
+            font_size=20,
+            size_hint=(1, 0.15),  # Small space at the top
+            halign='center',
+            valign='middle'
+        )
+        layout.add_widget(welcome_label)
+
+        # Middle Spacer + Buttons Centered in Middle
+        center_layout = BoxLayout(orientation='vertical', spacing=20, size_hint=(1, 0.7))
+        center_layout.add_widget(Label(size_hint=(1, 0.5)))  # Spacer above buttons
+
+        new_button = Button(
+            text='Start New Analysis',
+            font_size=25,
+            size_hint=(None, None),
+            size=(400, 60),
+            pos_hint={'center_x': 0.5}
+        )
+        center_layout.add_widget(new_button)
+
+        old_button = Button(
+            text='View Old Analysis Info',
+            font_size=25,
+            size_hint=(None, None),
+            size=(400, 60),
+            pos_hint={'center_x': 0.5}
+        )
+        center_layout.add_widget(old_button)
+
+        center_layout.add_widget(Label(size_hint=(1, 0.5)))  # Spacer below buttons
+
+        new_button.bind(on_press=lambda x: setattr(self.manager, 'current', 'analysis'))
+        old_button.bind(on_press=lambda x: setattr(self.manager, 'current', 'old_analysis'))
+
+        layout.add_widget(center_layout)
+
+        # Bottom (optional): Leave blank or use for additional info
+        layout.add_widget(Label(size_hint=(1, 0.15)))  # Spacer at bottom
+
+        self.add_widget(layout)
+
+ 
+
+'''
 class UserInfoScreen(Screen):
     def __init__(self, service_manager=None, **kwargs):
         super().__init__(**kwargs)
@@ -114,6 +171,35 @@ class UserInfoScreen(Screen):
             self.service_manager.trialParameters.IP_Server = self.ip_server_input.text
 
         self.manager.current = 'analysis'
+'''
+
+class OldAnalysisInfoScreen(Screen):
+    def __init__(self, service_manager=None, **kwargs):
+        super().__init__(**kwargs)
+        self.service_manager = service_manager
+
+        layout = BoxLayout(orientation='vertical', spacing=5, padding=5)
+
+        # Placeholder: You can later populate this from file or database
+        layout.add_widget(Label(text='Old Analysis Info', font_size=20))
+
+        if self.service_manager and hasattr(self.service_manager, 'get_old_analysis_info'):
+            old_info = self.service_manager.get_old_analysis_info()
+            for entry in old_info:
+                layout.add_widget(Label(text=entry))
+
+        back_button = Button(
+            text='Back to User Info',
+            font_size=20,
+            size_hint=(None, None),
+            size=(400, 30),
+            pos_hint={'center_x': 0.5},  # center it
+            color=(1, 1, 1, 1),  # White text color
+        )
+        back_button.bind(on_press=lambda x: setattr(self.manager, 'current', 'user'))
+        layout.add_widget(back_button)
+
+        self.add_widget(layout)
 
 
 # Screen 2: Analysis Info
@@ -127,15 +213,15 @@ class AnalysisInfoScreen(Screen):
         self.vkeyboard = VKeyboard()
         self.vkeyboard.layout = 'qwerty'
         self.vkeyboard.size_hint_y = None
-        self.vkeyboard.height = Window.height * 0.3
+        self.vkeyboard.height = Window.height * 0.25
         self.vkeyboard.width = Window.width * 0.6
         self.vkeyboard.bind(on_key_up=self.on_key_up)
 
         layout = BoxLayout(orientation='vertical', spacing=3, padding=5)
 
+        self.user_name_input = self._create_input(layout, 'User Name:', 'Enter username')
+        self.trial_number_input = self._create_input(layout, 'Trial Number:', 'Enter trial number')
         self.bacteria_name_input = self._create_input(layout, 'Bacteria Name:', 'Enter bacteria name')
-        self.sampling_rate_input = self._create_input(layout, 'Sampling Rate:', 'Enter sampling rate')
-        self.buffer_size_input = self._create_input(layout, 'Buffer Size:', 'Enter buffer size')
         self.record_duration_input = self._create_input(layout, 'Record Duration:', 'Enter record duration')
         
         layout.add_widget(Label(text='Analysis Type:', size_hint_y=None, height=30, font_size=14))
@@ -259,8 +345,8 @@ class AnalysisInfoScreen(Screen):
     # when the start button is pressed, the rest of the data entered is updated to the trial parameter variables
     def start_action(self, instance):
         if self.service_manager:
-            self.service_manager.trialParameters.SAMPLING_RATE = int(self.sampling_rate_input.text) if self.sampling_rate_input.text.isdigit() else 0
-            self.service_manager.trialParameters.BUFFER_SIZE = int(self.buffer_size_input.text) if self.buffer_size_input.text.isdigit() else 0
+            self.service_manager.trialParameters.USER = self.user_name_input.text
+            self.service_manager.trialParameters.TRIAL = int(self.trial_number_input.text) if self.trial_number_input.text.isdigit() else 0
             self.service_manager.trialParameters.RECORD_DURATION = int(self.record_duration_input.text) if self.record_duration_input.text.isdigit() else 0
             self.service_manager.trialParameters.UID = self.bacteria_name_input.text
 
@@ -279,168 +365,4 @@ class AnalysisInfoScreen(Screen):
             self.service_manager.deviceFlags.START_FLAG = False
             self.service_manager.deviceFlags.STOP_FLAG = True
 
-
-
-'''
-class Tab1Content(BoxLayout):
-    def __init__(self,service_manager=None, **kwargs):
-            
-        super().__init__(**kwargs)
-        self.service_manager = service_manager
-        self.orientation = 'vertical'
-        self.spacing = 10
-        self.padding = 10
-        
-
-        # Create input box for "User Name"
-        self.add_widget(self.create_labeled_input('User Name:', 'Enter username'))
-
-        # Create input box for "Enter Bacteria Name"
-        self.add_widget(self.create_labeled_input('Bacteria Name:', 'Enter bacteria name'))
-
-        # Create input box for "Trial Number"
-        self.add_widget(self.create_labeled_input('Trial Number:', 'Enter trial number'))
-        
-        # Create input box for "Sampling Rate"
-        self.add_widget(self.create_labeled_input('Sampling Rate:', 'Enter sampling rate'))
-        
-        # Create input box for "Buffer Size"
-        self.add_widget(self.create_labeled_input('Buffer Size:', 'Enter buffer size'))
-        
-        # Create input box for "Record Duration"
-        self.add_widget(self.create_labeled_input('Record Duration:', 'Enter record duration'))
-        
-        # Create input box for "Port Server"
-        self.add_widget(self.create_labeled_input('Port Server:', 'Enter port server'))
-        
-        # Create input box for "IP Server"
-        self.add_widget(self.create_labeled_input('IP Server:', 'Enter IP server'))
-        
-        # Create the Analysis Type label and radio buttons
-        self.add_widget(Label(text='Analysis Type:', size_hint=(1, 0.1), font_size=18))
-
-        # Create a horizontal layout for the radio buttons
-        radio_layout = BoxLayout(orientation='horizontal', size_hint=(1, 0.1))
-
-        self.option1 = CheckBox(group='radio', size_hint=(None, 1), width=50)
-        self.option2 = CheckBox(group='radio', size_hint=(None, 1), width=50)
-        self.option3 = CheckBox(group='radio', size_hint=(None, 1), width=50)
-
-        # Add radio buttons with their labels
-        radio_layout.add_widget(Label(text='BreathEmulate'))
-        radio_layout.add_widget(self.option1)
-        radio_layout.add_widget(Label(text='Option 2'))
-        radio_layout.add_widget(self.option2)
-        radio_layout.add_widget(Label(text='Option 3'))
-        radio_layout.add_widget(self.option3)
-
-        # Add the radio layout to the main layout
-        self.add_widget(radio_layout)
-
-        # Create the control buttons: Start, Pause, Stop
-        button_layout = BoxLayout(orientation='horizontal', size_hint=(1, 0.2), spacing=10)
-
-        start_button = Button(
-            text='START',
-            font_size=20,
-            size_hint_y=0.5,
-            color=(0, 0, 0, 1),  # Black text color
-            background_color=(0, 1, 0, 1),  # Green background color
-            background_normal=""  # Remove default background image
-        )
-
-        pause_button = Button(
-            text='PAUSE',
-            font_size=20,
-            size_hint_y=0.5,
-            color=(0, 0, 0, 1),  # Black text color
-            background_color=(1, 0.65, 0, 1),  # Orange background color
-            background_normal=""  # Remove default background image
-        )
-
-        stop_button = Button(
-            text='STOP',
-            font_size=20,
-            size_hint_y=0.5,
-            color=(0, 0, 0, 1),  # Black text color
-            background_color=(1, 0, 0, 1),  # Red background color
-            background_normal=""  # Remove default background image
-        )
-
-        # Bind the Start button to the start function
-        start_button.bind(on_press=self.start_action)
-        
-        # Bind the Start button to the stop function
-        stop_button.bind(on_press=self.stop_action)
-
-        # Add buttons to the layout
-        button_layout.add_widget(start_button)
-        button_layout.add_widget(pause_button)
-        button_layout.add_widget(stop_button)
-
-        # Add the button layout to the main layout
-        self.add_widget(button_layout)
-
-    def user_screen(self):
-        for i in range(2):
-                screen = Screen(name='Title %d' % i)
-                sm.add_widget(screen)
-        sm.current = "Title 2"
-    
-    def create_labeled_input(self, label_text, hint_text):
-        """Create a horizontal layout with a label and input box."""
-        layout = BoxLayout(orientation='horizontal', size_hint=(1, 0.1), spacing=10)
-        label = Label(text=label_text, size_hint=(0.3, 1))
-        text_input = TextInput(hint_text=hint_text, size_hint=(0.7, 1))
-        setattr(self, f'{label_text.lower().replace(" ", "_").replace(":", "")}_input', text_input)  # Store input reference
-        layout.add_widget(label)
-        layout.add_widget(text_input)
-        return layout
-
-    def start_action(self, instance):
-        """Print the entered details to the console when Start is clicked."""
-        print("clicked start action")
-        
-        
-        user_name = self.user_name_input.text.strip()
-        bacteria_name = self.bacteria_name_input.text.strip()
-        trial_number = self.trial_number_input.text.strip()
-        sampling_rate = self.sampling_rate_input.text.strip()
-        buffer_size = self.buffer_size_input.text.strip()
-        record_duration = self.record_duration_input.text.strip()
-        port_server = self.port_server_input.text.strip()
-        ip_server = self.ip_server_input.text.strip()
-        
-        # Determine which radio button is selected
-        if self.option1.active:
-            radio_value = "BreathEmulate"
-        elif self.option2.active:
-            radio_value = 'Option 2'
-        elif self.option3.active:
-            radio_value = 'Option 3'
-        else:
-            radio_value = 'No option selected'
-            
-        self.service_manager.trialParameters.USER = user_name
-        self.service_manager.trialParameters.UID = bacteria_name
-        self.service_manager.trialParameters.TRIAL = int(trial_number) if trial_number.isdigit() else 0
-        self.service_manager.trialParameters.SAMPLING_RATE = int(sampling_rate) if sampling_rate.isdigit() else 0
-        self.service_manager.trialParameters.BUFFER_SIZE = int(buffer_size) if buffer_size.isdigit() else 0
-        self.service_manager.trialParameters.RECORD_DURATION = int(record_duration) if record_duration.isdigit() else 0
-        self.service_manager.trialParameters.PORT_Server = int(port_server) if port_server.isdigit() else 0
-        self.service_manager.trialParameters.IP_Server = ip_server
-        self.service_manager.trialParameters.MODE = radio_value
-
-        # Set the START_FLAG
-        self.service_manager.deviceFlags.CONFIGURE_FLAG = True
-        self.service_manager.deviceFlags.START_FLAG = True
-        
-        # print(f"[START] User: {user_name}, UID: {bacteria_name}, Trial: {trial_number}, Mode: {radio_value}, Sampling Rate: {sampling_rate}")
-
-    def stop_action(self, instance):
-        """Print the entered details to the console when Stop is clicked."""
-        print("clicked stop action")
-        # Set the STOP_FLAG
-        self.service_manager.deviceFlags.STOP_FLAG = True
-'''
 
