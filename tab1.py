@@ -83,97 +83,6 @@ class UserInfoScreen(Screen):
 
  
 
-'''
-class UserInfoScreen(Screen):
-    def __init__(self, service_manager=None, **kwargs):
-        super().__init__(**kwargs)
-        self.service_manager = service_manager
-
-        self.current_input = None 
-        
-
-        self.vkeyboard = VKeyboard()
-        self.vkeyboard.layout = 'qwerty'
-        self.vkeyboard.size_hint_y = None
-        self.vkeyboard.height = Window.height * 0.3
-        self.vkeyboard.width = Window.width * 0.6
-        self.vkeyboard.bind(on_key_up=self.on_key_up)
-
-        layout = BoxLayout(orientation='vertical', spacing=5, padding=5)
-
-        self.user_name_input = self._create_input(layout, 'User Name:', 'Enter username')
-        self.trial_number_input = self._create_input(layout, 'Trial Number:', 'Enter trial number')
-        self.port_server_input = self._create_input(layout, 'Port Server:', 'Enter port server')
-        self.ip_server_input = self._create_input(layout, 'IP Server:', 'Enter IP server')
-
-        next_button = Button(
-            text='Next: Analysis Info',
-            font_size=20,
-            # size_hint_y=0.5,
-            size_hint=(None, None),
-            size=(400, 30),
-            pos_hint={'center_x': 0.5},  # center it
-            color=(1, 1, 1, 1),  # White text color
-        )
-        next_button.bind(on_press=self.go_to_next)
-        layout.add_widget(next_button)
-
-        self.add_widget(layout)
-
-    def _create_input(self, parent, label_text, hint_text):
-        box = BoxLayout(orientation='horizontal', size_hint=(1, 0.1))
-        label = Label(text=label_text, size_hint=(0.3, 1))
-        input_field = TextInput(hint_text=hint_text, size_hint=(0.7, 1), keyboard_mode='auto')
-        input_field.bind(focus=self.on_focus)
-        box.add_widget(label)
-        box.add_widget(input_field)
-        parent.add_widget(box)
-        return input_field
-        
-
-    def on_focus(self, instance, value):
-        if value:
-            # Unfocus all other text inputs
-            for child in self.walk(restrict=True):
-                if isinstance(child, TextInput) and child != instance:
-                    child.focus = False
-
-            self.current_input = instance  # Track current input
-            if self.vkeyboard.parent is None:
-                self.add_widget(self.vkeyboard)
-        else:
-            # Remove keyboard only if no other TextInput is focused
-            if not any(child.focus for child in self.walk(restrict=True) if isinstance(child, TextInput)):
-                if self.vkeyboard.parent:
-                    self.remove_widget(self.vkeyboard)
-
-    def on_key_up(self, keyboard, keycode, *args):
-        key = keycode
-        if not self.current_input:
-            return
-        if key == 'backspace':
-            self.current_input.do_backspace()
-        elif key == 'enter':
-            self.current_input.focus = False
-        elif key == 'spacebar':
-            self.current_input.insert_text(' ')
-        elif key == 'escape':
-            self.current_input.focus = False
-            if self.vkeyboard.parent:
-                self.remove_widget(self.vkeyboard)
-        else:
-            self.current_input.insert_text(key)
-
-    # when the next button is pressed, the data entered is updated to the trial parameter variables
-    def go_to_next(self, instance):
-        if self.service_manager:
-            self.service_manager.trialParameters.USER = self.user_name_input.text
-            self.service_manager.trialParameters.TRIAL = int(self.trial_number_input.text) if self.trial_number_input.text.isdigit() else 0
-            self.service_manager.trialParameters.PORT_Server = int(self.port_server_input.text) if self.port_server_input.text.isdigit() else 0
-            self.service_manager.trialParameters.IP_Server = self.ip_server_input.text
-
-        self.manager.current = 'analysis'
-'''
 
 class OldAnalysisInfoScreen(Screen):
     def __init__(self, service_manager=None, **kwargs):
@@ -243,6 +152,7 @@ class OldAnalysisInfoScreen(Screen):
 
         # Switch to the analysis screen
         self.manager.current = 'analysis'
+
 
 # Screen 2: Analysis Info
 class AnalysisInfoScreen(Screen):
@@ -406,7 +316,7 @@ class AnalysisInfoScreen(Screen):
         if self.service_manager:
             self.service_manager.deviceFlags.START_FLAG = False
             self.service_manager.deviceFlags.STOP_FLAG = True
-            
+    '''        
     def on_pre_enter(self):
         """Refresh input fields using trialParameters before the screen appears."""
         if self.service_manager:
@@ -421,5 +331,6 @@ class AnalysisInfoScreen(Screen):
             self.option1.active = tp.MODE == 'BreathEmulate'
             self.option2.active = tp.MODE == 'Static'
             self.option3.active = tp.MODE == 'Combined'
+    '''
 
 
