@@ -2,9 +2,14 @@
 
 from DAQManager import DAQManager
 import time
+from datetime import datetime
 import os
 import threading
 import requests
+import warnings
+
+warnings.filterwarnings("ignore")
+
 class ModeManager():
 
     global nebState
@@ -70,7 +75,7 @@ class ModeManager():
             # write functionality
 
         if self.currentService.trialParameters.MODE == "BreathEmulate":
-            print("entered be if statement")
+            # print("entered be if statement")
             self.paraData = self.currentService.trialParameters
 
             self.nebControl = {
@@ -82,7 +87,7 @@ class ModeManager():
             self.stepDurations = self.nebControl['StepDurations']
             self.nebStates = self.nebControl['NebStates']
 
-            self.currentService.trialParameters.RECORD_DURATION = sum(self.stepDurations)
+            # self.currentService.trialParameters.RECORD_DURATION = sum(self.stepDurations)
 
             self.logFile.WriteLog('Step Durations: ' + self.paraData.SEQUENCE_DURATION, 0)
             self.logFile.WriteLog('Nebulizer States: ' + self.paraData.SEQUENCE, 0)
@@ -101,87 +106,58 @@ class ModeManager():
         elif nebstate1==1:    
             requests.post("https://maker.ifttt.com/trigger/on_switch/with/key/bQbEEqB8H2G9oAy3ndl-aK")
             print('Nebulizer On') 
-    '''           
-    def RegularModeRun(self):
-        self.total_samples_read = 0
-        start_time = time.time()
-        self.logFile.WriteLog('Recording Started', 1)
-        self.DAQ.StartDAQ()
 
-        max_duration = self.currentService.trialParameters.RECORD_DURATION 
-        self.stateStartTime = time.time()
+    def current_time_string(self):
+        return datetime.now().strftime("%H:%M:%S")
 
-        while not self.modeData.STOP_FLAG and self.modeData.CONNECTION_FLAG:
-            current_time = time.time()
-            elapsed_time = int(current_time - start_time)
-
-            # Optional safety: break if max_duration is reached
-            if max_duration > 0 and elapsed_time >= max_duration:
-                self.logFile.WriteLog('Maximum configured duration reached.', 0)
-                break
-
-            msg, self.total_samples_read = self.DAQ.ScanDAQ(self.total_samples_read, nebState)
-
-            if self.currentService.trialParameters.MODE == "BreathEmulate":
-                if self.stateSet:
-                    self.stateSet = False
-                    self.thisState += 1
-                    self.stateStartTime = time.time()
-
-                    if self.thisState < len(self.nebStates):
-                        self.SwitchControl(self.nebStates[self.thisState])
-                        self.endDuration = self.stepDurations[self.thisState]
-                    else:
-                        self.logFile.WriteLog('Breath Emulation sequence complete.', 0)
-                        # Do not break, let the user manually stop
-                else:
-                    if time.time() - self.stateStartTime >= self.endDuration:
-                        self.stateSet = True
-
-            if self.currentService.trialParameters.MODE == "Static":
-                # Write functionality
-                printf("Static Mode if entered in MM")
-                pass
-
-            self.logFile.WriteLog(f'Time Elapsed (s): {elapsed_time}', True)
-
-            if msg == 'HardwareOvr':
-                self.logFile.WriteLog('Hardware Over Run')
-                break
-            elif msg == 'BuffOvr':
-                self.logFile.WriteLog('Buffer Over Run')
-                break
-
-            # time.sleep(0.5)  # To avoid tight loop
-            
-        self.DAQ.ResetDAQ()
-        if self.modeData.CONNECTION_FLAG:
-            self.currentService.thisConnection.SendData2Server('Recording Complete!')
-
-        final_elapsed = int(time.time() - start_time)
-        self.logFile.WriteLog('Recording Ended', 1)
-        self.logFile.WriteLog(f'Data Recording Complete for a Duration of {final_elapsed}s', 0)
-        self.logFile.WriteLog('Final Data Frame Size: ' + str(self.DAQ.recDataFrame.shape), 0)
-        self.DAQ.recDataFrame.index.name = 'Samples'
-        self.currentService.dataFileManage.Write2CSV(self.DAQ.recDataFrame)
-
-    
-    '''
     def RegularModeRun(self):
     
         self.total_samples_read=0
         startTime=time.time()
-        endTime=startTime+self.currentService.trialParameters.RECORD_DURATION
-        max_duration = self.currentService.trialParameters.RECORD_DURATION
-        currentTime=time.time()
-        timeElapsed = 0
+        # totalTime = self.currentService.trialParameters.RECORD_DURATION
+        totalTime = self.currentService.trialParameters.RECORD_DURATION
+        # print(f'Start time: {self.current_time_string()}')
+        self.logFile.WriteLog(f": Recording Started", 1)
+        # print(current_time_string() + ":Recording Started")
+        # print(f'Total Duration: {totalTime}')
+        self.logFile.WriteLog(f"Total Duration: {totalTime} seconds", 0)
+        elapsed = 0
+        # step_durations = self.serviceManager.trialParameters.STEP_DURATIONS
+        # nebulizer_states = self.serviceManager.trialParameters.NEBULIZER_STATES
+
+        current_step_index = 0
+        step_start_time = time.time()
         self.logFile.WriteLog('Recording Started',1)
         self.DAQ.StartDAQ()
+
+        while (elapsed) < totalTime and (not self.modeData.STOP_FLAG):
+            msg,self.total_samples_read=self.DAQ.ScanDAQ(self.total_samples_read,nebState)
+
+            elapsed = int(time.time() - startTime)
+            # print(f'Time Elapsed: {elapsed}')
+            # print(f"{self.current_time_string()}:Time Elapsed (s):{elapsed} of {totalTime}")
+            self.logFile.WriteLog(f"{self.current_time_string()}:Time Elapsed (s):{elapsed} of {totalTime}", 0)
+            if self.currentService.trialParameters.MODE=="BreathEmulate":
+                print("Breath Emulation")
+            
+            if self.currentService.trialParameters.MODE=="Static":
+                print("entered static if statement")
+                # WRITE STATIC MODE FUNCTIONALITY
+            if msg=='HardwareOvr':
+                self.logFile.WriteLog('Hardware Over Run')
+                break
+            elif msg=='BuffOvr':
+                self.logFile.WriteLog('Buffer Over Run')
+                break
+            time.sleep(0.1)  # sleep
+            
+
+        '''
         while not self.modeData.STOP_FLAG and self.modeData.CONNECTION_FLAG:
             currentTime = time.time()
             msg,self.total_samples_read=self.DAQ.ScanDAQ(self.total_samples_read,nebState)
             # COMMENT OUT BELOW
-            '''
+            
             if self.currentService.trialParameters.MODE=="BreathEmulate":
                 if self.stateSet:
                     print(self.stateSet)
@@ -197,7 +173,7 @@ class ModeManager():
                         self.stateSet=True
                         curDuration=0
             #TILL HERE
-            '''
+            
             if self.currentService.trialParameters.MODE=="BreathEmulate":
                 
                 if self.stateSet:
@@ -213,17 +189,22 @@ class ModeManager():
                         print("Breath Emulation sequence complete.")
                         # break  # or continue without switching
 
-                else:
-                    elapsed_time = int(currentTime - startTime)
-                    self.logFile.WriteLog(f'(i put)Time Elapsed (s): {elapsed_time}', True)
+                # else:
+                    # elapsed_time = int(currentTime - startTime)
+                    # self.logFile.WriteLog(f'(i put)Time Elapsed (s): {elapsed_time}', True)
 
-                    if elapsed >= self.endDuration:
-                        self.stateSet = True
+                    # if elapsed >= self.endDuration:
+                        # self.stateSet = True
             if self.currentService.trialParameters.MODE=="Static":
                 print("entered static if statement")
                 # WRITE STATIC MODE FUNCTIONALITY
+
+            elapsed = int(time.time() - startTime)
+            if elapsed == totalTime:
+                print(f'Elapsed Time: {elapsed}')
+                self.logFile.WriteLog(f'(i put)Time Elapsed (s): {elapsed}', True)
             
-            self.logFile.WriteLog('Time Elapsed (s):'+str(int(currentTime-startTime)+1)+' of '+str(self.currentService.trialParameters.RECORD_DURATION),True)
+            # self.logFile.WriteLog('Time Elapsed (s):'+str(int(currentTime-startTime)+1)+' of '+str(self.currentService.trialParameters.RECORD_DURATION),True)
             if msg=='HardwareOvr':
                 self.logFile.WriteLog('Hardware Over Run')
                 break
@@ -235,7 +216,7 @@ class ModeManager():
                 timeElapsed=currentTime-startTime
                 continue
             time.sleep(0.5)  # sleep for 1 second
-        
+        '''
 
         self.DAQ.ResetDAQ()
         if self.modeData.CONNECTION_FLAG:
@@ -243,7 +224,7 @@ class ModeManager():
 
         self.logFile.WriteLog('Recording Ended ',1)
         # self.logFile.WriteLog('Data Recording Complete for a Duration of '+str(int(timeElapsed))+'s',0)
-        self.logFile.WriteLog(f'Data Recording Complete for a Duration of {elapsed_time}s', 0)
+        self.logFile.WriteLog(f'Data Recording Complete for a Duration of {elapsed}s', 0)
         self.logFile.WriteLog('Final Data Frame Size:'+str(self.DAQ.recDataFrame.shape),0)
         self.DAQ.recDataFrame.index.name='Samples'
 

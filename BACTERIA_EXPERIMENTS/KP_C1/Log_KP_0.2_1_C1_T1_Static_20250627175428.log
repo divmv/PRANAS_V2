@@ -1,0 +1,79 @@
+Log started on 6/27/2025
+Initialized local system at 17:54:28
+UID: KP_0.2_1_C1
+Mode: Static
+Trial: 1
+Duration: 60 seconds
+User: Divya Vemuri
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+17:54:28:: Recording Started
+Total Duration: 60 seconds
+17:54:28:Recording Started
+17:54:29:Time Elapsed (s):1 of 60
+17:54:30:Time Elapsed (s):2 of 60
+17:54:31:Time Elapsed (s):3 of 60
+17:54:32:Time Elapsed (s):4 of 60
+17:54:33:Time Elapsed (s):5 of 60
+17:54:34:Time Elapsed (s):6 of 60
+17:54:35:Time Elapsed (s):7 of 60
+17:54:36:Time Elapsed (s):8 of 60
+17:54:37:Time Elapsed (s):9 of 60
+17:54:38:Time Elapsed (s):10 of 60
+17:54:39:Time Elapsed (s):11 of 60
+17:54:40:Time Elapsed (s):12 of 60
+17:54:41:Time Elapsed (s):13 of 60
+17:54:42:Time Elapsed (s):14 of 60
+17:54:43:Time Elapsed (s):15 of 60
+17:54:44:Time Elapsed (s):16 of 60
+17:54:45:Time Elapsed (s):17 of 60
+17:54:46:Time Elapsed (s):18 of 60
+17:54:47:Time Elapsed (s):19 of 60
+17:54:48:Time Elapsed (s):20 of 60
+17:54:49:Time Elapsed (s):21 of 60
+17:54:50:Time Elapsed (s):22 of 60
+17:54:51:Time Elapsed (s):23 of 60
+17:54:52:Time Elapsed (s):24 of 60
+17:54:53:Time Elapsed (s):25 of 60
+17:54:54:Time Elapsed (s):26 of 60
+17:54:55:Time Elapsed (s):27 of 60
+17:54:56:Time Elapsed (s):28 of 60
+17:54:57:Time Elapsed (s):29 of 60
+17:54:58:Time Elapsed (s):30 of 60
+17:54:59:Time Elapsed (s):31 of 60
+17:55:00:Time Elapsed (s):32 of 60
+17:55:01:Time Elapsed (s):33 of 60
+17:55:02:Time Elapsed (s):34 of 60
+17:55:03:Time Elapsed (s):35 of 60
+17:55:04:Time Elapsed (s):36 of 60
+17:55:05:Time Elapsed (s):37 of 60
+17:55:06:Time Elapsed (s):38 of 60
+17:55:07:Time Elapsed (s):39 of 60
+17:55:08:Time Elapsed (s):40 of 60
+17:55:09:Time Elapsed (s):41 of 60
+17:55:10:Time Elapsed (s):42 of 60
+17:55:11:Time Elapsed (s):43 of 60
+17:55:12:Time Elapsed (s):44 of 60
+17:55:13:Time Elapsed (s):45 of 60
+17:55:14:Time Elapsed (s):46 of 60
+17:55:15:Time Elapsed (s):47 of 60
+17:55:16:Time Elapsed (s):48 of 60
+17:55:17:Time Elapsed (s):49 of 60
+17:55:18:Time Elapsed (s):50 of 60
+17:55:19:Time Elapsed (s):51 of 60
+17:55:20:Time Elapsed (s):52 of 60
+17:55:21:Time Elapsed (s):53 of 60
+17:55:22:Time Elapsed (s):54 of 60
+17:55:23:Time Elapsed (s):55 of 60
+17:55:24:Time Elapsed (s):56 of 60
+17:55:25:Time Elapsed (s):57 of 60
+17:55:26:Time Elapsed (s):58 of 60
+17:55:27:Time Elapsed (s):59 of 60
+17:55:28:Time Elapsed (s):60 of 60
+17:55:28:Recording Ended 
+Data Recording Complete for a Duration of 60s
+Final Data Frame Size:(60000, 4)

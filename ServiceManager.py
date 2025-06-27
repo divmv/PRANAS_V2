@@ -61,17 +61,19 @@ class ServiceManager:
                         self.currentMode = RecordMode(self)
                         self.deviceFlags.CONFIGURE_FLAG = False
                         print("Combined Mode")
+                        
                 print("Device configured.")
 
         
         def start_mode(self):
                 """Start the current mode."""
-                '''
+                
                 if self.currentMode:
+                        print("Mode started.")
                         self.currentMode.Run()
-                '''
+                
                 self.deviceFlags.START_FLAG = False
-                print("Mode started.")
+                
         '''
         def start_mode(self):
                 """Start the current mode"""

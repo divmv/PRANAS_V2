@@ -42,7 +42,7 @@ class DataFileManage:
         def ReadFrmCSV(self,fileName):
                 return pd.read_csv(fileName)
 
-        #self.data_file_name="Data_"+str(UID)+'_T'+str(TrialNo)+'_'+Mode
+        # self.data_file_name="Data_"+str(UID)+'_T'+str(TrialNo)+'_'+Mode
 
 class DataTransfer:
     def __init__(self):
