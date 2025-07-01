@@ -78,6 +78,21 @@ class ModeManager():
             # print("entered be if statement")
             self.paraData = self.currentService.trialParameters
 
+            if self.stateSet:
+                print(self.stateSet)
+                self.stateSet = False
+                self.thisState += 1
+                self.SwitchControl(self.nebStates[self.thisState])
+            if self.thisState <= len(self.stepDurations):
+                self.endDuration = self.stepDurations[self.thisState]
+                self.curDuration = 0
+            else:
+                self.curDuration += 1
+            if self.curDuration >= self.endDuration - 1:
+                self.stateSet = True
+                self.curDuration = 0
+
+
             self.nebControl = {
                 'NebStatus': True,
                 'StepDurations': list(map(int, self.paraData.SEQUENCE_DURATION.split(','))),
@@ -173,7 +188,7 @@ class ModeManager():
                         self.stateSet=True
                         curDuration=0
             #TILL HERE
-            
+    
             if self.currentService.trialParameters.MODE=="BreathEmulate":
                 
                 if self.stateSet:
@@ -195,6 +210,7 @@ class ModeManager():
 
                     # if elapsed >= self.endDuration:
                         # self.stateSet = True
+            
             if self.currentService.trialParameters.MODE=="Static":
                 print("entered static if statement")
                 # WRITE STATIC MODE FUNCTIONALITY

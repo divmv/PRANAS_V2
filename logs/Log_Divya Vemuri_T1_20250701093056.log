@@ -1,0 +1,19 @@
+Log started on 7/1/2025
+Initialized local system at 9:30:56
+UID: 
+Mode: Static
+Trial: 1
+Duration: 0 seconds
+User: Divya Vemuri
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+9:30:56:: Recording Started
+Total Duration: 0 seconds
+9:30:56:Recording Started
+9:30:56:Recording Ended 
+Data Recording Complete for a Duration of 0s
+Final Data Frame Size:(0, 0)

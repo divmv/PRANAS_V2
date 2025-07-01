@@ -253,7 +253,8 @@ class OldAnalysisInfoScreen(Screen):
         if self.service_manager:
             self.service_manager.deviceFlags.START_FLAG = False
             self.service_manager.deviceFlags.STOP_FLAG = True
-            
+
+    '''        
     def on_pre_enter(self):
         """Refresh input fields using trialParameters before the screen appears."""
         if self.service_manager:
@@ -268,6 +269,7 @@ class OldAnalysisInfoScreen(Screen):
             self.option1.active = tp.MODE == 'BreathEmulate'
             self.option2.active = tp.MODE == 'Static'
             self.option3.active = tp.MODE == 'Combined'
+    '''
     
 
 
