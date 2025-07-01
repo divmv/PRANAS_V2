@@ -1,0 +1,24 @@
+Log started on 7/1/2025
+Initialized local system at 10:27:49
+UID: DDDRT
+Mode: Static
+Trial: 2
+Duration: 5 seconds
+User: Divya Vemuri
+-----------------------------------
+Selected MCC 118 HAT device at address:0
+Device in continous scan mode
+Channels: 0, 1, 2,  
+Requested Scan Rate: 1000 
+Actual Scan Rate: 1000.0 
+10:27:49:: Recording Started
+Total Duration: 5 seconds
+10:27:49:Recording Started
+10:27:50:Time Elapsed (s):1 of 5
+10:27:51:Time Elapsed (s):2 of 5
+10:27:52:Time Elapsed (s):3 of 5
+10:27:53:Time Elapsed (s):4 of 5
+10:27:54:Time Elapsed (s):5 of 5
+10:27:54:Recording Ended 
+Data Recording Complete for a Duration of 5s
+Final Data Frame Size:(5000, 4)

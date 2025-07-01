@@ -14,7 +14,6 @@ class LogFileManage:
                                         '_'+currentService.GetCurrentTime(3)+'.log'
                 '''
                 self.log_file_name='Log_'+str(self.currentService.trialParameters.USER)+\
-                                        '_T'+str(self.currentService.trialParameters.TRIAL)+\
                                         '_'+currentService.GetCurrentTime(3)+'.log'
                 self.WriteLog('Log started on ' + self.currentService.GetCurrentTime(2), 0)
                 self.WriteLog('Initialized local system at ' + self.currentService.GetCurrentTime(1), 0)
